@@ -33,11 +33,8 @@ def get_titles_from_search_results(filename):
 			t = (title_list[index], author_list[index])
 			search_list.append(t)
 
-		print(search_list)
+		return search_list
 
-
-
-	
 
 def get_search_links():
 	"""
@@ -49,8 +46,19 @@ def get_search_links():
 	your list, and , and be sure to append the full path to the URL so that the url is in the format 
 	“https://www.goodreads.com/book/show/kdkd".
 	"""
-	pass
-
+	url_list = []
+	website_url = 'https://www.goodreads.com/search?q=fantasy&qid=NwUsLiA2Nc'
+	r = requests.get(website_url)
+	soup = BeautifulSoup(r.content, 'html.parser')
+	table = soup.find('table', class_= 'tableList')
+	rows = table.find_all('tr')
+	for row in rows[:10]:
+		info = row.find_all('td')
+		url = info[0].find('a')
+		link = "https://www.goodreads.com" + str(url['href'])
+		url_list.append(link)
+	return url_list
+        
 
 def get_book_summary(book_url):
 	"""
@@ -63,8 +71,7 @@ def get_book_summary(book_url):
 	You can easily capture CSS selectors with your browser's inspector window.
 	Make sure to strip() any newlines from the book title and number of pages.
 	"""
-
-	pass
+	
 
 
 def summarize_best_books(filepath):
@@ -188,4 +195,3 @@ def extra_credit(filepath):
 if __name__ == '__main__':
 	# print(extra_credit("extra_credit.htm"))
 	# unittest.main(verbosity=2)
-	get_titles_from_search_results('search_results.htm')
