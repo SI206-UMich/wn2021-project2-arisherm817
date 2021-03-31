@@ -5,6 +5,8 @@ import os
 import csv
 import unittest
 
+#By Ari Sherman
+#Partner: Lindsay Brenner
 
 def get_titles_from_search_results(filename):
 	"""
